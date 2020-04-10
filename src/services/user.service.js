@@ -9,6 +9,10 @@ class UserDataService {
     return http.get(`/users/${id}`);
   }
 
+  getByEmail(email){
+    return http.get(`/users/${email}`);
+  }
+
   create(data){
     return http.post(`/users`, data);
   }
@@ -27,6 +31,10 @@ class UserDataService {
 
   findByTitle(title) {
     return http.get(`/users/${title}`)
+  }
+
+  authUser(data){
+    return http.post(`/users/signin`, data)
   }
 }
 

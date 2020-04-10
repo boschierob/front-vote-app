@@ -7,8 +7,8 @@ class Home extends Component  {
 
 		render(){
 			return (
-			<div className="container" style={{height:"1000px"}} >
-				<div className="card" style={{margin:"100px"}}>
+			<div className="container" style={{padding:"50px 100px 500px 1px"}} >
+				<div className="card">
 					<div className="card-body" >
 					<h2 className="card-title">
 						Qu'est-ce que Vot'in Copro ?
@@ -23,12 +23,10 @@ class Home extends Component  {
 						Ensuite, notre application se chargera d'envoyer les notification de l'ouverture des votes a vos participants, par l'envoi automatique d'email.
 						Vous pourrez aussi par la suite, gerer l'evenement en question, apporter des modifications comme le changement de la date limite, ou rajouter des participants, voire clôre le vote.
 					</p>
-					<p className="card-text">
-						Suivez cette quelques etapes afin d'organiser un vote en ligne:        
-					</p>
+				
 				</div>
 				</div>
-					<h2 className="card-title">
+					<h2 className="card-title"  style={{margin:"100px"}}>
 					Suivez cette quelques etapes afin d'organiser un vote en ligne:  
 					</h2>
 				<div class="row">

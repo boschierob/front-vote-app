@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
+import Signin from './signin.component';
+import Board from './board.component';
 import Signup from './signup.component';
 import Home from './home.component';
 import Tutorial from './tutorial.component';
@@ -30,7 +32,7 @@ class Header extends Component  {
 				                </Link>
 				              </li>
 				              <li className="nav-item">
-				                <Link to={"/sign-in"} className="nav-link">
+				                <Link to={"/signin"} className="nav-link">
 				                  Se connecter
 				                </Link>
 				              </li>
@@ -53,6 +55,8 @@ class Header extends Component  {
                 <Switch>
                   <Route exact path={["/", "/home"]} component={Home}/>
                   <Route exact path={"/signup"} component={Signup}/>
+                   <Route path={"/board/:email"} render={(props) => <Board {...props}/>}/>
+                  <Route exact path={"/signin"} component={Signin}/>
                   <Route exact path={"/tutorial"} component={Tutorial}/>
                 </Switch>
               </div>

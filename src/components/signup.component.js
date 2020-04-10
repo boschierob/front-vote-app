@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from 'react-router-dom';
 
-import TutorialDataService from "../services/tutorial.service";
+import UserDataService from "../services/user.service";
 
 
 class Signup extends Component {
@@ -13,6 +13,7 @@ class Signup extends Component {
     this.onChangePostalCode= this.onChangePostalCode.bind(this);
     this.onChangeCity = this.onChangeCity.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
     this.saveUser = this.saveUser.bind(this);
     
 
@@ -23,7 +24,8 @@ class Signup extends Component {
       adress:"",
       postal_code:"",
       city:"",
-      email:""
+      email:"",
+      password:""
     };
   }
 
@@ -63,6 +65,12 @@ onChangeFirstName(e){
     });
   }
 
+  onChangePassword(e) {
+    this.setState({
+      password: e.target.value
+    });
+  }
+
   saveUser() {
     var data = {
       first_name: this.state.first_name,
@@ -70,10 +78,28 @@ onChangeFirstName(e){
       adress: this.state.adress,
       postal_code: this.state.postal_code,
       city: this.state.city,
-      email: this.state.email
+      email: this.state.email,
+      password: this.state.password
     };
-    console.log(`donnees : ${data.first_name}+ ${data.last_name} + ${data.adress}`);
-    this.props.history.push('/home');
+    UserDataService.create(data)
+      .then(response => {
+        this.setState({
+          id: response.data.id,
+          first_name: response.data.first_name,
+          last_name: response.data.last_name,
+          adress: response.data.adress,
+          postal_code:response.data.postal_code,
+          city: response.data.city,
+          email: response.data.email,
+          password: response.data.password
+        });
+        console.log(response.data);
+        this.props.history.push('/signin');
+      })
+      .catch(e => {
+        console.log(e);
+      });
+   
   }
 
   newTutorial() {
@@ -89,7 +115,7 @@ onChangeFirstName(e){
   }
 render() {
     return (
-      <div className="submit-form">
+      <div className="submit-form" style={{width:"70%"}}>
         {this.state.submitted ? (
           <div>
             <h4>You submitted successfully!</h4>
@@ -99,8 +125,9 @@ render() {
           </div>
         ) : (
           <div>
-            <div className="form-group">
-              <label htmlFor="first_name">your name</label>
+            <div className="row">
+            <div className="form-group" style={{width:"40%"}} >
+              <label htmlFor="first_name">Prenom</label>
               <input
                 type="text"
                 className="form-control"
@@ -111,8 +138,8 @@ render() {
                 name="first_name"
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="last_name">Title</label>
+            <div className="form-group" style={{marginLeft:"20px",width:"40%"}}>
+              <label htmlFor="last_name">Nom</label>
               <input
                 type="text"
                 className="form-control"
@@ -123,45 +150,10 @@ render() {
                 name="last_name"
               />
             </div>
-
-            <div className="form-group">
-              <label htmlFor="adress">Adresse</label>
-              <input
-                type="text"
-                className="form-control"
-                id="adress"
-                required
-                value={this.state.adress}
-                onChange={this.onChangeAdress}
-                name="adress"
-              />
             </div>
-
-            <div className="form-group">
-              <label htmlFor="postal_code">Code postal</label>
-              <input
-                type="text"
-                className="form-control"
-                id="postal_code"
-                required
-                value={this.state.postal_code}
-                onChange={this.onChangePostalCode}
-                name="postal_code"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="city">Ville</label>
-              <input
-                type="text"
-                className="form-control"
-                id="city"
-                required
-                value={this.state.city}
-                onChange={this.onChangeCity}
-                name="city"
-              />
-            </div>
-            <div className="form-group">
+            
+             <div className="row">
+            <div className="form-group" style={{width:"70%"}}>
               <label htmlFor="email">Email</label>
               <input
                 type="text"
@@ -173,7 +165,62 @@ render() {
                 name="email"
               />
             </div>
+            </div>
 
+            <div className="row">
+            <div className="form-group" style={{width:"70%"}}>
+              <label htmlFor="password">Password</label>
+              <input
+                type="text"
+                className="form-control"
+                id="password"
+                required
+                value={this.state.password}
+                onChange={this.onChangePassword}
+                name="password"
+              />
+            </div>
+            </div>
+
+            <div className="form-group" style={{marginLeft:"-20px",width:"100%"}}>
+              <label htmlFor="adress">Adresse</label>
+              <input
+                type="text"
+                className="form-control"
+                id="adress"
+                required
+                value={this.state.adress}
+                onChange={this.onChangeAdress}
+                name="adress"
+              />
+            </div>
+            <div className="row">
+            <div className="form-group"   style={{width:"30%"}}>
+              <label htmlFor="postal_code">Code postal</label>
+              <input
+                type="text"
+                className="form-control"
+                id="postal_code"
+                required
+                value={this.state.postal_code}
+                onChange={this.onChangePostalCode}
+                name="postal_code"
+              />
+            </div>
+            <div className="form-group"  style={{marginLeft:"20px",width:"50%"}}>
+              <label htmlFor="city">Ville</label>
+              <input
+                type="text"
+                className="form-control"
+                id="city"
+                required
+                value={this.state.city}
+                onChange={this.onChangeCity}
+                name="city"
+              />
+            </div>
+            </div>
+           
             <button onClick={this.saveUser} className="btn btn-success">
               Submit
             </button>
