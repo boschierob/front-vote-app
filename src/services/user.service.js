@@ -18,7 +18,11 @@ class UserDataService {
   }
 
   update(id,data){
-    return http.put(`/users/${id}`, data)
+    return http.put(`/users/${id}`, data);
+  }
+
+  pushOccasion(userId,occasionId){
+    return http.put(`/users/PushOccasion/${userId}/${occasionId}`);
   }
 
   delete(id) {

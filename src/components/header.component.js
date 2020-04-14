@@ -6,6 +6,7 @@ import Board from './board.component';
 import Signup from './signup.component';
 import Home from './home.component';
 import Tutorial from './tutorial.component';
+import OccasionEdit from './OccasionEdit.component';
 
 
 class Header extends Component  {
@@ -58,6 +59,7 @@ class Header extends Component  {
                    <Route path={"/board/:email"} render={(props) => <Board {...props}/>}/>
                   <Route exact path={"/signin"} component={Signin}/>
                   <Route exact path={"/tutorial"} component={Tutorial}/>
+                  <Route exact path="/occasions/one/:id" component={OccasionEdit}/>
                 </Switch>
               </div>
 
