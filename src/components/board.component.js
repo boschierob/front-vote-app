@@ -5,7 +5,9 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import UserDataService from "../services/user.service";
 import OccasionDataService from "../services/occasion.service";
 
-import OccasionForm from "./OccasionForm.component"
+
+import OccasionForm from "./OccasionForm.component";
+
 
 class Board extends Component {
 	constructor(props){
@@ -25,7 +27,11 @@ class Board extends Component {
 							description: '',
 							date: '',
 							limit_date: ''
-						}]
+						}],
+			votes:[{
+				id:null,
+				title:''
+			}]
           
       };
 	}
@@ -121,6 +127,7 @@ class Board extends Component {
 
 		                ))}
 					   <OccasionForm initiator={this.state.currentUser.email} userId={this.state.currentUser.id}/>
+					   
 
 					  </div>
 					</div>

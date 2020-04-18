@@ -2,7 +2,8 @@ import React, { Component, Fragment } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import OccasionDataService from "../services/occasion.service";
-
+import VoteDataService from "../services/vote.service";
+import VoteForm from "./VoteForm.component";
 
 class OccasionEdit extends Component {
 	constructor(props){
@@ -14,8 +15,9 @@ class OccasionEdit extends Component {
 						title: '',
 						description: '',
 						date: '',
-						limit_date: ''
-					}
+						limit_date: '',
+					},
+			votes:[{}]
 		}
 	}
 
@@ -29,6 +31,15 @@ class OccasionEdit extends Component {
 	        }) 
 	        .catch(err => console.log(err));
 
+	    VoteDataService.getAllVotes()
+	    	.then(response => {
+	    		this.setState({
+	    			votes:response.data	
+	    		});
+	    		
+	    	 console.log(response.data);
+	        }) 
+	        .catch(err => console.log(err));
 	     
 	}
 
@@ -38,6 +49,14 @@ class OccasionEdit extends Component {
 				<h1>
 				PAGE D'EDITION DE L'EVENEMENT {this.state.occasion.title}
 				</h1>
+				<ul>
+					{this.state.votes.map((vote,index) =>(
+						<li key={index}>
+						{vote.title}
+						</li>
+					))}
+				</ul>
+				<VoteForm occasionId={this.state.occasion.id}/>
 			</div>
 
 			)
