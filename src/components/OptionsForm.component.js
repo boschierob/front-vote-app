@@ -3,14 +3,12 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import VoteDataService from "../services/vote.service";
 
-import OptionsForm from "./OptionsForm.component.js";
-
-const VoteForm = () => {
+const OptionsForm = () => {
 	//initialise the form input fields
 		//inputFields refers to the form fields, 
 		//while setInputFields is the used to set the value for these form fields
 	const [inputFields, setInputFields] = useState([
-			{ question: ''}
+			{ option: ''}
 		]);
 
 	//setup the form 
@@ -21,8 +19,8 @@ const VoteForm = () => {
 
 	const handleInputChange = (index, event) => {
     const values = [...inputFields];
-    if (event.target.name === "question") {
-      values[index].question = event.target.value;
+    if (event.target.name === "option") {
+      values[index].option = event.target.value;
     }/* else {
       values[index].lastName = event.target.value;
     }
@@ -34,7 +32,7 @@ const VoteForm = () => {
 
   const handleAddFields = () => {
     const values = [...inputFields];
-    values.push({ question: ''});
+    values.push({ option: ''});
     setInputFields(values);
   };
 
@@ -46,46 +44,40 @@ const VoteForm = () => {
 
 	return(
 		<>
-			<h1>
-				Dynamic Form Fields vote
-			</h1>
 			<form onSubmit={handleSubmit}>
 				<div className="form-row">
+					<h3>
+						OptionsForm component : reponse a choix multiples
+					</h3>
 					{inputFields.map((inputField, index) => (
 						<Fragment key={`${inputField}~${index}`}>
+							
 							<div className="form-group col-sm-6">
-								<label htmlFor="question"> Question</label>
+								<label htmlFor="option"> Option :</label>
 								<input
 									type="text"
 									className="form-control"
-									id="question"
-									name="question"
-									value={inputField.question}
+									id="option"
+									name="option"
+									value={inputField.option}
 									//include a change handler to cater for user input action.
 									onChange={event => handleInputChange(index, event)}
 								/>
 							</div>
-							<br/>
-						<pre>
-						 {JSON.stringify(inputFields, null, 2)}
-						</pre>
-							<p>
-							<OptionsForm />
-							</p>
 							<div classname="form-group col-sm-2">
 								<button
 									className="btn btn-link"
 									type="button"
 									onClick={() => handleRemoveFields(index)}
 								>
-								-
+								Supprimer option de reponse
 								</button>
 								<button
 									className="btn btn-link"
 									type="button"
 									onClick={() => handleAddFields()}
 								>
-								+
+								Ajouter une option de reponse
 								</button>
 							</div>
 						</Fragment>
@@ -100,11 +92,14 @@ const VoteForm = () => {
 			            Save
 			          </button>
 			        </div>
-			       
+			       <br/>
+						<pre>
+						 {JSON.stringify(inputFields, null, 2)}
+						</pre>
 			  </form>
 		</>
 	)
 }
 
 
-export default VoteForm;
+export default OptionsForm;
