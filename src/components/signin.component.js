@@ -55,9 +55,13 @@ class Signin extends Component {
 
   render(){
   	return(
-  		<div className="submit-form" style={{width:"70%"}}>
-  			<div className="row">
-            <div className="form-group" style={{width:"70%"}}>
+
+  		<div className="sign submit-form">
+      <h2>
+        Connection
+      </h2>
+  			<div className="row" >
+            <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
                 type="text"
@@ -69,10 +73,8 @@ class Signin extends Component {
                 name="email"
               />
             </div>
-            </div>
-
-            <div className="row">
-            <div className="form-group" style={{width:"70%"}}>
+          
+            <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
                 type="text"
@@ -86,11 +88,14 @@ class Signin extends Component {
             </div>
             </div>
 
-			 <button onClick={this.authUser} className="btn btn-success">
+            <button onClick={this.authUser} className="btn btn-success" style={{marginRight:"40%",marginTop:"15px",height:"100%"}}>
               Submit
             </button>
+			    
+         <div className="image2In">
 
-
+        </div>
+       
   		</div>
 
 

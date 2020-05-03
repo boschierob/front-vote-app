@@ -42,17 +42,18 @@ class Header extends Component  {
 				                  Tutorial
 				                </Link>
 				              </li>
-				              <button style={{position:"inline-block"}} className="btn btn-primary">
+				             
+				            </div>
+				             <button className="inscription btn btn-primary">
 				                <Link to={"/create"} className="btn btn-primary">
 				                  Créer un vote  
 				                </Link>
 				              </button>
-				            </div>
 						</nav>
 					
 					</header>
 					
-					 <div className="container mt-3">
+					 <div >
                 <Switch>
                   <Route exact path={["/", "/home"]} component={Home}/>
                   <Route exact path={"/signup"} component={Signup}/>

@@ -115,7 +115,10 @@ onChangeFirstName(e){
   }
 render() {
     return (
-      <div className="submit-form" style={{width:"70%"}}>
+      <div className="sign submit-form">
+          <h2>
+             Inscription
+          </h2>
         {this.state.submitted ? (
           <div>
             <h4>You submitted successfully!</h4>
@@ -226,6 +229,9 @@ render() {
             </button>
           </div>
         )}
+        <div className="imageIn">
+
+        </div>
       </div>
     );
   }

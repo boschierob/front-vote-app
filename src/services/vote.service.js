@@ -2,9 +2,8 @@ import http from "../http-common";
 
 class VoteDataService{
 
-	getAllVotes(){
-		return http.get(`votes`);
-
+	getVotesByOccasion(occasionId){
+		return http.get(`votes/${occasionId}`);
 	}
 
 	create(data){

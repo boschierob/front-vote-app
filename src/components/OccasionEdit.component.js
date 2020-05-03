@@ -3,7 +3,12 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import OccasionDataService from "../services/occasion.service";
 import VoteDataService from "../services/vote.service";
-import VoteForm from "./VoteForm.component";
+
+import OptionsForm from "./OptionsForm.component";
+import QuestionForm from "./QuestionForm.component";
+import Vote from "./Vote";
+
+
 
 class OccasionEdit extends Component {
 	constructor(props){
@@ -15,9 +20,11 @@ class OccasionEdit extends Component {
 						title: '',
 						description: '',
 						date: '',
-						limit_date: '',
+						limit_date: ''
 					},
-			votes:[{}]
+			votes:[{}],
+			currentVote: null,
+        	currentIndexVote: -1,
 		}
 	}
 
@@ -31,7 +38,7 @@ class OccasionEdit extends Component {
 	        }) 
 	        .catch(err => console.log(err));
 
-	    VoteDataService.getAllVotes()
+	    VoteDataService.getVotesByOccasion(this.props.match.params.id)
 	    	.then(response => {
 	    		this.setState({
 	    			votes:response.data	
@@ -43,6 +50,14 @@ class OccasionEdit extends Component {
 	     
 	}
 
+	 setActiveVote(vote, index){
+    this.setState({
+          currentVote:vote,
+          currentIndexVote: index
+    
+        });
+  }
+
 	render(){
 		return (
 			<div>
@@ -50,16 +65,35 @@ class OccasionEdit extends Component {
 				PAGE D'EDITION DE L'EVENEMENT {this.state.occasion.title}
 				</h1>
 				<ul>
+				
 					{this.state.votes.map((vote,index) =>(
-						<li key={index}>
+						<li 
+						className={
+                 		 "list-group-item " +
+                  		(index === this.state.currentIndexVote ? "active" : "")
+                		}
+						onClick={() => this.setActiveVote(vote, index)}
+						key={index}>
 						{vote.title}
 						</li>
 					))}
 				</ul>
-				<VoteForm occasionId={this.state.occasion.id}/>
+				<div className="col-md-6">	
+				{this.state.currentVote ? (
+					<Vote />
+					)	: (
+					<div>
+					Selectionnez un vote...
+					</div>
+
+					)
+				}
+				</div>
+			
+				
 			</div>
 
-			)
+		)
 	}
 }
 

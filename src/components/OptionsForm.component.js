@@ -1,9 +1,12 @@
-import React, { useState, Fragment, Component } from "react";
+import React, { useState, Fragment, Component, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { VoteContext } from "../context/VoteContext";
 
 import VoteDataService from "../services/vote.service";
 
-const OptionsForm = () => {
+//const voteFormContext = useContext(VoteContext);
+
+const OptionsForm = (params) => {
 	//initialise the form input fields
 		//inputFields refers to the form fields, 
 		//while setInputFields is the used to set the value for these form fields
@@ -47,7 +50,7 @@ const OptionsForm = () => {
 			<form onSubmit={handleSubmit}>
 				<div className="form-row">
 					<h3>
-						OptionsForm component : reponse a choix multiples
+						OptionsForm component : a la question {params.question_id}
 					</h3>
 					{inputFields.map((inputField, index) => (
 						<Fragment key={`${inputField}~${index}`}>
@@ -61,7 +64,10 @@ const OptionsForm = () => {
 									name="option"
 									value={inputField.option}
 									//include a change handler to cater for user input action.
-									onChange={event => handleInputChange(index, event)}
+									onChange={(event) =>{
+										 handleInputChange(index, event);
+										//this.props.changeOptionsHandler(event);
+									}}
 								/>
 							</div>
 							<div classname="form-group col-sm-2">
@@ -87,7 +93,7 @@ const OptionsForm = () => {
 			          <button
 			            className="btn btn-primary mr-2"
 			            type="submit"
-			            onSubmit={handleSubmit}
+			            onSubmit={() =>setInputFields}
 			          >
 			            Save
 			          </button>
