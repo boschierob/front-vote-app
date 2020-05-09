@@ -1,44 +1,76 @@
 import React,{ useState, Fragment } from 'react';
-import Options from './Options';
+import OptionsForm from './OptionsForm.component';
+import VoteDataService from "../services/vote.service";
 
-const Vote = () => {
+const Vote = (props) => {
 
-const [questions, setQuestions] = useState({
-	questions:{
-		question:'',
-		options:[]
-	}
-});
 
-const [inputFields, setInputFields] = useState([
-	{questions:[]}]
+const [question, setQuestion] = useState(
+	''
   );
 
-const handleAddFields = () => {
-    const values = [...inputFields];
-    values.push({question:''});
-    setInputFields(values);
+
+const[next, setNext] = useState(false);
+
+
+const handleInputChange = (event) => {
+
+    setQuestion(event.target.value);
   };
 
-  const handleRemoveFields = index => {
-    const values = [...inputFields];
-    values.splice(index, 1);
-    setInputFields(values);
-  };
-
-  const handleInputChange = (index, event) => {
-    const values = [...inputFields];
-    if (event.target.name === "question") {
-      values[index].question = event.target.value;
-    } 
-
-    setInputFields(values);
-  };
-
-  const handleSubmit = e => {
+ const handleSubmit = e => {
     e.preventDefault();
-    console.log("inputFields", inputFields);
+    //post to database
+
+    var data = {
+      question
+    };
+    var id = props.id;
+
+    VoteDataService.addQuestionToVote(id,data)
+    .then(console.log(data))
+      .then(response => {
+        data=({
+        	question:response.data.question
+        });
+        console.log(response.data);
+        
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  		//console.log(options);
   };
+
+  const handleSubmitAll = (d) =>{
+  	
+   	var data = {
+      question:question,
+      options:d
+    };
+    var id = props.id;
+    console.log('les data sont :'+JSON.stringify(d, null, 2)+' et '+id+' question:'+question)
+
+  	 VoteDataService.addQuestionOptionsToVote(id,data)
+      .then(response => {
+        data=({
+          question:response.data.question,
+        	options:response.data.options
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  		//console.log(options);
+  };
+
+
+  	
+
+const handleNext = ()=>{
+	setNext(true);
+}
 
 
 	return(
@@ -46,53 +78,50 @@ const handleAddFields = () => {
       <h1>Ajouter les questions à voter avec les options de réponses :</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
-          {inputFields.map((inputField, index) => (
-            <Fragment key={`${inputField}~${index}`}>
+         
+            <Fragment>
               <div className="form-group col-sm-6">
-                <label htmlFor="question">Question à ajouter :</label>
+                <label htmlFor="question">Question à ajouter au vote {props.id}:</label>
                 <input
                   type="text"
                   className="form-control"
                   id="question"
                   name="question"
-                  value={inputField.question}
-                  onChange={event => handleInputChange(index, event)}
+                  value={question}
+                  onChange={event => handleInputChange(event)}
                 />
 
               </div>
               
-              <div className="form-group col-sm-2">
-                <button
-                  className="btn btn-link"
-                  type="button"
-                  onClick={() => handleRemoveFields(index)}
-                >
-                  -
-                </button>
-                <button
-                  className="btn btn-link"
-                  type="button"
-                  onClick={() => handleAddFields()}
-                >
-                  +
-                </button>
-              </div>
-              <Options />
             </Fragment>
-          ))}
+ 
         </div>
+        
         <div className="submit-button">
           <button
             className="btn btn-primary mr-2"
             type="submit"
-            onSubmit={handleSubmit}
+            onClick={handleSubmit}
           >
             Save
-          </button>
+          </button> 
         </div>
+        <div className="col-md-6">	
+				{next ? (
+					<OptionsForm voteId={props.id} handleSubmitAll={handleSubmitAll}/>
+					)	: (
+				<button 
+		         onClick={handleNext}
+		         
+		          > Ajouter des options de reponses a la question
+		         </button>
+		         )
+				}
+		</div>
         <br/>
         <pre>
-          {JSON.stringify(inputFields, null, 2)}
+          {JSON.stringify(question, null, 2)}
+           
         </pre>
       </form>
     </>

@@ -7,53 +7,52 @@ import VoteDataService from "../services/vote.service";
 //const voteFormContext = useContext(VoteContext);
 
 const OptionsForm = (params) => {
+
 	//initialise the form input fields
 		//inputFields refers to the form fields, 
 		//while setInputFields is the used to set the value for these form fields
-	const [inputFields, setInputFields] = useState([
+	const [options, setOptions] = useState([
 			{ option: ''}
 		]);
+	
 
-	//setup the form 
-	const handleSubmit = e => {
-		e.preventDefault();
-		console.log("inputFields", inputFields)
-	};
 
 	const handleInputChange = (index, event) => {
-    const values = [...inputFields];
+    const values = [...options];
+    var data = Object.values(options);
     if (event.target.name === "option") {
       values[index].option = event.target.value;
     }/* else {
       values[index].lastName = event.target.value;
     }
 */
-    setInputFields(values);
+    setOptions(values);
+
   };
 
   //handling adding and removing form fields
 
   const handleAddFields = () => {
-    const values = [...inputFields];
+    const values = [...options];
     values.push({ option: ''});
-    setInputFields(values);
+    setOptions(values);
   };
 
   const handleRemoveFields = index => {
-    const values = [...inputFields];
+    const values = [...options];
     values.splice(index, 1);
-    setInputFields(values);
+    setOptions(values);
   };
 
 	return(
 		<>
-			<form onSubmit={handleSubmit}>
+			
 				<div className="form-row">
 					<h3>
 						OptionsForm component : a la question {params.question_id}
 					</h3>
-					{inputFields.map((inputField, index) => (
-						<Fragment key={`${inputField}~${index}`}>
+					{options.map((option, index) => (
+						<Fragment key={`${option}~${index}`}>
 							
 							<div className="form-group col-sm-6">
 								<label htmlFor="option"> Option :</label>
@@ -62,7 +61,7 @@ const OptionsForm = (params) => {
 									className="form-control"
 									id="option"
 									name="option"
-									value={inputField.option}
+									value={option.option}
 									//include a change handler to cater for user input action.
 									onChange={(event) =>{
 										 handleInputChange(index, event);
@@ -70,39 +69,42 @@ const OptionsForm = (params) => {
 									}}
 								/>
 							</div>
-							<div classname="form-group col-sm-2">
+
+							<div  classname="form-group col-sm-2">
 								<button
 									className="btn btn-link"
 									type="button"
 									onClick={() => handleRemoveFields(index)}
 								>
-								Supprimer option de reponse
+								-
 								</button>
 								<button
 									className="btn btn-link"
 									type="button"
 									onClick={() => handleAddFields()}
 								>
-								Ajouter une option de reponse
+								+
 								</button>
 							</div>
+							
 						</Fragment>
 						))}
-					</div>
 					<div className="submit-button">
 			          <button
 			            className="btn btn-primary mr-2"
-			            type="submit"
-			            onSubmit={() =>setInputFields}
+			            type="button"
+			            onClick={()=>params.handleSubmitAll(options)}
 			          >
 			            Save
 			          </button>
 			        </div>
+					</div>
+					
 			       <br/>
 						<pre>
-						 {JSON.stringify(inputFields, null, 2)}
+						 {JSON.stringify(options, null, 2)}
 						</pre>
-			  </form>
+			 
 		</>
 	)
 }

@@ -13,6 +13,10 @@ class VoteDataService{
 	addQuestionToVote(voteId,data){
 		return http.put(`votes/votePushQuestion/${voteId}`, data);
 	}
+
+	addQuestionOptionsToVote(id,data){
+		return http.put(`votes/addQuestionOptions/${id}`,data);
+	}
 }
 
 export default new VoteDataService()

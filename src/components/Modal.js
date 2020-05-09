@@ -9,7 +9,7 @@ export const Modal = ({
   modalRef,
   buttonRef,
   closeModal,
-  onSubmit
+  onSubmit,
 }) => {
   return ReactDOM.createPortal(
     <FocusTrap>

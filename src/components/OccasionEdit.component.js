@@ -80,7 +80,7 @@ class OccasionEdit extends Component {
 				</ul>
 				<div className="col-md-6">	
 				{this.state.currentVote ? (
-					<Vote />
+					<Vote id={this.state.votes[this.state.currentIndexVote]._id}/>
 					)	: (
 					<div>
 					Selectionnez un vote...
